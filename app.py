@@ -1,6 +1,6 @@
 from flask import Flask, render_template
 from flask_pymongo import PyMongo
-import scraping
+import scraping_new
 
 app = Flask(__name__)
 
@@ -24,8 +24,8 @@ def scrape():
         allow us to access the database , scrape new data using our scraping.py script, update the db and return a message when successful.
     """
     mars= mongo.db.mars # points to mongo db 
-    mars_data = scraping.scrape_all() # scrape_all is a function in scrapin.py
-    mas.update({}, mars_data, upsert=True) # 
+    mars_data = scraping_new.scrape_all() # scrape_all is a function in scrapin.py
+    mars.update({}, mars_data, upsert=True) # 
     return redirect('/',code=302)
 
 
