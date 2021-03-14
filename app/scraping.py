@@ -25,8 +25,10 @@ def scrape_all():
             "news_paragraph": news_paragraph,
             "featured_image": featured_image(browser),
             "facts": mars_facts(),
+            "hemispheres_data": hemisphere_scrape(browser),
             "last_modified": dt.datetime.now()
     }
+    
     # Stop the webdriver and return the data
     browser.quit()
     return data
@@ -103,6 +105,51 @@ def mars_facts():
 
     return df.to_html()
 
+#scrape the hemispheres of Mars
+def hemisphere_scrape(browser):
+    #visit url
+    url = 'https://data-class-mars-hemispheres.s3.amazonaws.com/Mars_Hemispheres/index.html'
+    browser.visit(url)
+    hemisphere_image_urls = []   # empty dictionary to hold titles and urls
+
+    #get the links of hemispheres
+    img_link = browser.find_by_css("a.product-item h3")
+    # find the no of  hemisphere links
+    no_of_urls =  len(img_link)
+    print(no_of_urls)
+    try:
+        #loop through the number of urls.
+        for i in range(no_of_urls):
+            
+            # empty dictionary
+            hemisphere_dict = {}   
+            
+            #click on each url using the click()
+            browser.find_by_css('a.product-item h3')[i].click() 
+            
+            #get the title of the hemisphere and add into the dictionary
+            hemisphere_dict['title']=  browser.find_by_css('h2.title').text
+            
+            #just validating the title in the dictionary
+            print(hemisphere_dict)
+            
+            #check links on the Sample text  within the same url 
+            img_url_text = browser.links.find_by_text('Sample').first
+            
+            #add to the hemisphere dict 
+            hemisphere_dict['img_url'] = img_url_text['href']
+            print(hemisphere_dict)
+            
+            #append the to empty list
+            hemisphere_image_urls.append(hemisphere_dict)
+
+            browser.back()
+    except :
+        print('Not in a vald link')
+    
+    return hemisphere_image_urls
+    
+    
 # browser.quit()
 if __name__ == "__main__":
     # print the scraped data when run as script
