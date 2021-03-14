@@ -1,6 +1,6 @@
 # Mission-to-Mars
 ### Purpose:
-Webscrape the recent article from Nasa's mars url and scrape the mars hemisphere's using Python.
+Create webApp using flask by webscraping most recent article from Nasa's mars url and along with that also scrape the mars hemisphere's and titles.
 
 ### Technologies:
 Python, Flask, HTML, CSS3 , Bootstrap3.
